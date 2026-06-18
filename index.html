@@ -220,17 +220,17 @@
             const layer = document.getElementById(`layer-${category}`);
             const isCurrentlyActive = btnElement.classList.contains('active');
 
-            // Handle singular item slots (Tops, Bottoms, Shoes) to swap rather than stack
-            if (category !== 'sunnies' && category !== 'hat') {
-                const rowButtons = btnElement.parentElement.querySelectorAll('.item-btn');
-                rowButtons.forEach(btn => btn.classList.remove('active'));
-            }
-
             if (isCurrentlyActive) {
+                // If clicking an already active button, take the item off
                 layer.style.display = 'none';
-                layer.src = '';
+                layer.removeAttribute('src'); 
                 btnElement.classList.remove('active');
             } else {
+                // Remove 'active' status from all other buttons in this category
+                const rowButtons = btnElement.parentElement.querySelectorAll('.item-btn');
+                rowButtons.forEach(btn => btn.classList.remove('active'));
+
+                // Assign the image, set active state, and display the element
                 layer.src = imgUrl;
                 layer.style.display = 'block';
                 btnElement.classList.add('active');
@@ -240,7 +240,7 @@
         function resetLook() {
             document.querySelectorAll('.layer').forEach(layer => {
                 layer.style.display = 'none';
-                layer.src = '';
+                layer.removeAttribute('src');
             });
             document.querySelectorAll('.item-btn').forEach(btn => btn.classList.remove('active'));
         }
