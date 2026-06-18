@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Lookbook Dress-Up Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f3f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        p {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .game-container {
+            display: flex;
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            gap: 30px;
+            max-width: 850px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .closet {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .category {
+            background: #fbfbfb;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #ededed;
+        }
+
+        .category h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #34495e;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .item-btn {
+            background: white;
+            border: 1px solid #dcdde1;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #2f3640;
+            transition: all 0.2s ease;
+        }
+
+        .item-btn:hover {
+            background: #f5f6fa;
+            border-color: #b2bec3;
+        }
+
+        .item-btn.active {
+            background: #2f3640;
+            color: white;
+            border-color: #2f3640;
+        }
+
+        .preview-area {
+            flex: 0.9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #edf2f4;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            min-height: 450px;
+        }
+
+        .avatar-frame {
+            width: 240px;
+            height: 360px;
+            background: #ffffff;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Wardrobe Layers for Layout Stacking */
+        .layer {
+            position: absolute;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            display: none;
+            pointer-events: none;
+        }
+
+        /* Layout placement tweaks to layer perfectly */
+        #layer-hat { top: 10px; width: 110px; z-index: 10; }
+        #layer-sunnies { top: 65px; width: 75px; z-index: 11; }
+        #layer-top { top: 75px; width: 140px; z-index: 5; }
+        #layer-bottom { top: 145px; width: 165px; z-index: 4; }
+        #layer-shoes { bottom: 15px; width: 130px; z-index: 6; }
+
+        .reset-btn {
+            margin-top: 20px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SUMMER LOOKBOOK DESIGNER</h1>
+    <p>Mix and match your saved aesthetics into the perfect fit</p>
+
+    <div class="game-container">
+        <div class="closet">
+            <div class="category">
+                <h3>Tops</h3>
+                <div class="options">
+                    <button class="item-btn" onclick="toggleOutfit('top', 'https://i.imgur.com/vW7GgqS.png', this)">Ribbed White Tank</button>
+                    <button class="item-btn" onclick="toggleOutfit('top', 'https://i.imgur.com/vHwZ2L5.png', this)">Navy Halter Cami</button>
+                    <button class="item-btn" onclick="toggleOutfit('top', 'https://i.imgur.com/K6Yw7gW.png', this)">Striped Button-Up</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>Bottoms</h3>
+                <div class="options">
+                    <button class="item-btn" onclick="toggleOutfit('bottom', 'https://i.imgur.com/Z8vY6pB.png', this)">Blue Linen Pants</button>
+                    <button class="item-btn" onclick="toggleOutfit('bottom', 'https://i.imgur.com/UfOqYgN.png', this)">Denim Mini Skirt</button>
+                    <button class="item-btn" onclick="toggleOutfit('bottom', 'https://i.imgur.com/pZqN993.png', this)">Grey Sweat Shorts</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>Headwear</h3>
+                <div class="options">
+                    <button class="item-btn" onclick="toggleOutfit('hat', 'https://i.imgur.com/pGZ0fS3.png', this)">Blue Trucker Cap</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>Accessories</h3>
+                <div class="options">
+                    <button class="item-btn" onclick="toggleOutfit('sunnies', 'https://i.imgur.com/7bYhV5q.png', this)">Black Sunglasses</button>
+                </div>
+            </div>
+
+            <div class="category">
+                <h3>Shoes</h3>
+                <div class="options">
+                    <button class="item-btn" onclick="toggleOutfit('shoes', 'https://i.imgur.com/Ww6R43C.png', this)">Navy Campus Sneakers</button>
+                    <button class="item-btn" onclick="toggleOutfit('shoes', 'https://i.imgur.com/M6X8gB6.png', this)">Comfort Slides</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="preview-area">
+            <div class="avatar-frame">
+                <img id="layer-hat" class="layer" alt="Hat">
+                <img id="layer-sunnies" class="layer" alt="Sunnies">
+                <img id="layer-top" class="layer" alt="Top">
+                <img id="layer-bottom" class="layer" alt="Bottom">
+                <img id="layer-shoes" class="layer" alt="Shoes">
+            </div>
+            <button class="reset-btn" onclick="resetLook()">Reset Outfit</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleOutfit(category, imgUrl, btnElement) {
+            const layer = document.getElementById(`layer-${category}`);
+            const isCurrentlyActive = btnElement.classList.contains('active');
+
+            // Handle singular item slots (Tops, Bottoms, Shoes) to swap rather than stack
+            if (category !== 'sunnies' && category !== 'hat') {
+                const rowButtons = btnElement.parentElement.querySelectorAll('.item-btn');
+                rowButtons.forEach(btn => btn.classList.remove('active'));
+            }
+
+            if (isCurrentlyActive) {
+                layer.style.display = 'none';
+                layer.src = '';
+                btnElement.classList.remove('active');
+            } else {
+                layer.src = imgUrl;
+                layer.style.display = 'block';
+                btnElement.classList.add('active');
+            }
+        }
+
+        function resetLook() {
+            document.querySelectorAll('.layer').forEach(layer => {
+                layer.style.display = 'none';
+                layer.src = '';
+            });
+            document.querySelectorAll('.item-btn').forEach(btn => btn.classList.remove('active'));
+        }
+    </script>
+</body>
+</html>
